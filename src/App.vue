@@ -1,28 +1,29 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <BarComponent v-if="dataset.length > 0" :dataset="dataset" />
+    <PieChart v-if="dataset.length > 0" :dataset="dataset" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import BarComponent from './components/BarComponent.vue'
+import PieChart from './components/PieChart.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    BarComponent,
+    PieChart
+  },
+  data() {
+    return {
+      dataset: []
+    }
+  },
+  created() {
+    this.axios.get('data.json').then(response => {
+      this.dataset = response.data
+    })
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
